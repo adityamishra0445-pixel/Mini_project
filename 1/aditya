@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillSwap — Learn. Teach. Help. Grow.</title>
+<style>
+:root{
+  --bg:#f7f8fc;--card:#fff;--text:#182033;--muted:#697386;--line:#e7e9f0;
+  --primary:#635bff;--primary2:#4f46e5;--green:#16a34a;--yellow:#f59e0b;
+  --shadow:0 12px 35px rgba(28,32,52,.08);--radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer;border:0}
+a{text-decoration:none;color:inherit}
+.container{width:min(1180px,92%);margin:auto}
+.navbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{font-size:24px;font-weight:850;letter-spacing:-1px}.logo span{color:var(--primary)}
+.navlinks{display:flex;gap:24px;color:#50586b;font-size:14px;font-weight:650}
+.navlinks a:hover{color:var(--primary)}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.btn{padding:11px 17px;border-radius:11px;font-weight:750;transition:.2s}
+.btn-primary{background:var(--primary);color:white;box-shadow:0 8px 20px rgba(99,91,255,.22)}
+.btn-primary:hover{background:var(--primary2);transform:translateY(-1px)}
+.btn-light{background:#f0efff;color:var(--primary)}
+.btn-outline{background:white;border:1px solid var(--line);color:var(--text)}
+.menu{display:none;background:none;font-size:25px}
+
+.hero{padding:78px 0 50px;background:linear-gradient(180deg,#fff 0%,#f7f8fc 100%)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:55px;align-items:center}
+.badge{display:inline-flex;gap:8px;align-items:center;padding:7px 11px;background:#eeedff;color:var(--primary);border-radius:30px;font-size:12px;font-weight:800;margin-bottom:18px}
+.hero h1{font-size:clamp(42px,6vw,70px);line-height:1.03;letter-spacing:-3px;max-width:720px}
+.hero h1 span{color:var(--primary)}
+.hero p{font-size:18px;color:var(--muted);max-width:630px;margin:22px 0 28px}
+.hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:55px;gap:12px}
+.stat{background:white;border:1px solid var(--line);padding:18px;border-radius:14px;text-align:center}
+.stat strong{font-size:24px;display:block}.stat small{color:var(--muted)}
+
+.hero-card{background:white;border:1px solid var(--line);border-radius:26px;padding:24px;box-shadow:var(--shadow);transform:rotate(1deg)}
+.profile-mini{display:flex;align-items:center;gap:13px;border-bottom:1px solid var(--line);padding-bottom:18px}
+.avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#e9e7ff;color:var(--primary);font-weight:850}
+.muted{color:var(--muted);font-size:13px}
+.skill-row{display:flex;align-items:center;justify-content:space-between;padding:17px 0;border-bottom:1px solid var(--line)}
+.tag{display:inline-block;background:#f0f1f6;color:#50586b;border-radius:20px;padding:5px 9px;font-size:11px;font-weight:750;margin:3px}
+.price{font-weight:850;color:var(--green)}
+section{padding:72px 0}
+.section-head{text-align:center;margin-bottom:35px}
+.section-head h2{font-size:36px;letter-spacing:-1.5px}
+.section-head p{color:var(--muted);max-width:600px;margin:8px auto}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:25px;box-shadow:0 5px 20px rgba(28,32,52,.035)}
+.step-num{width:42px;height:42px;border-radius:12px;background:#eeedff;color:var(--primary);display:grid;place-items:center;font-weight:850;margin-bottom:18px}
+.card h3{margin-bottom:8px}.card p{color:var(--muted);font-size:14px}
+
+.feature-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.feature{min-height:270px}.feature-icon{font-size:30px;margin-bottom:15px}
+.free{background:#eefbf2;border-color:#d5f1dc}.free .feature-icon{color:var(--green)}
+.swap{background:#f2f0ff;border-color:#ddd9ff}
+.searchbar{display:flex;gap:10px;margin:0 auto 25px;max-width:750px}
+.searchbar input{flex:1;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:white;outline:none}
+.searchbar input:focus{border-color:var(--primary)}
+.profiles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.person{position:relative}
+.person-top{display:flex;gap:13px;align-items:center;margin-bottom:15px}
+.rating{font-size:12px;color:#a16207}
+.person .description{font-size:13px;color:var(--muted);margin:10px 0 14px}
+.person-bottom{display:flex;justify-content:space-between;align-items:center}
+
+.problem-layout{display:grid;grid-template-columns:1.5fr .7fr;gap:20px}
+.problem{margin-bottom:12px}
+.problem-top{display:flex;justify-content:space-between;gap:15px}
+.problem h3{font-size:17px}
+.problem-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.status{padding:4px 8px;border-radius:15px;font-size:10px;font-weight:800;background:#fff7df;color:#a16207}
+.status.solved{background:#e9f9ee;color:var(--green)}
+.side-list li{list-style:none;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.side-list li:last-child{border:0}
+
+.cta{background:#171a2b;color:white;border-radius:25px;padding:45px;text-align:center}.cta p{color:#b9bed0;margin:10px auto 22px;max-width:650px}
+
+.footer{padding:35px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.footer-inner{display:flex;justify-content:space-between;gap:20px}
+
+.modal-bg{position:fixed;inset:0;background:rgba(10,13,25,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:18px}
+.modal-bg.show{display:flex}
+.modal{background:white;width:min(560px,100%);max-height:90vh;overflow:auto;border-radius:22px;padding:27px;position:relative}
+.close{position:absolute;right:18px;top:15px;background:#f1f2f6;width:34px;height:34px;border-radius:50%;font-size:20px}
+.modal h2{margin-bottom:5px}.modal-sub{color:var(--muted);font-size:13px;margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{margin-bottom:13px}.field.full{grid-column:1/-1}
+.field label{display:block;font-size:12px;font-weight:750;margin-bottom:6px}
+.field input,.field textarea,.field select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;outline:none}
+.field textarea{min-height:100px;resize:vertical}
+.choice{display:flex;gap:8px}.choice label{border:1px solid var(--line);padding:9px 12px;border-radius:10px;cursor:pointer;font-size:12px}.choice input{display:none}.choice input:checked+span{color:var(--primary);font-weight:800}
+.choice label:has(input:checked){border-color:var(--primary);background:#f4f3ff}
+.toast{position:fixed;bottom:25px;right:25px;background:#171a2b;color:white;padding:13px 17px;border-radius:12px;box-shadow:var(--shadow);transform:translateY(100px);opacity:0;transition:.25s;z-index:200;font-size:13px}.toast.show{transform:translateY(0);opacity:1}
+
+.dashboard{display:none;padding:45px 0}.dashboard.active{display:block}
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:20px 0}
+.dash-stat{background:white;border:1px solid var(--line);padding:18px;border-radius:14px}.dash-stat strong{font-size:25px;display:block}
+.account-panel{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px}
+.skill-chip{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#f7f7fa;border-radius:10px;margin:7px 0;font-size:13px}
+.remove{background:none;color:#999;font-size:16px}
+
+@media(max-width:900px){
+ .navlinks{display:none}.menu{display:block}.nav-actions .btn-light{display:none}
+ .hero-grid,.feature-grid,.problem-layout,.account-panel{grid-template-columns:1fr}
+ .steps,.profiles{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.dash-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+ .hero{padding-top:48px}.hero h1{letter-spacing:-2px}.hero p{font-size:16px}
+ .steps,.profiles,.stats,.dash-grid,.form-grid{grid-template-columns:1fr}
+ .field.full{grid-column:auto}.hero-card{transform:none}.nav{height:64px}
+ .nav-actions .btn{padding:9px 11px;font-size:12px}.cta{padding:30px 18px}
+ section{padding:55px 0}
+}
+</style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="container nav">
+    <a class="logo" href="#home">Skill<span>Swap</span></a>
+    <nav class="navlinks">
+      <a href="#explore">Explore Skills</a>
+      <a href="#problems">Free Problems</a>
+      <a href="#swap">Skill Swap</a>
+      <a href="#community">Community</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="btn btn-light" onclick="openModal('login')">Login</button>
+      <button class="btn btn-primary" onclick="openModal('signup')">Join SkillSwap</button>
+      <button class="menu" onclick="toggleMenu()">☰</button>
+    </div>
+  </div>
+</header>
+
+<main id="home">
+<section class="hero">
+ <div class="container">
+  <div class="hero-grid">
+   <div>
+    <div class="badge">🎓 Built for students, by students</div>
+    <h1>Learn something.<br><span>Teach something.</span><br>SkillSwap.</h1>
+    <p>A student-powered community where you can learn new skills, teach what you know, and get help with problems — without expensive courses.</p>
+    <div class="hero-buttons">
+      <button class="btn btn-primary" onclick="document.querySelector('#explore').scrollIntoView()">Explore Skills →</button>
+      <button class="btn btn-outline" onclick="openModal('problem')">Ask a Free Question</button>
+    </div>
+   </div>
+   <div class="hero-card">
+    <div class="profile-mini"><div class="avatar">RK</div><div><strong>Rahul Kumar</strong><div class="muted">CSE • 2nd Year</div></div><span style="margin-left:auto">⭐ 4.9</span></div>
+    <div class="skill-row"><div><strong>Python</strong><br><span class="tag">Intermediate</span><span class="tag">Teach</span></div><span class="price">₹20</span></div>
+    <div class="skill-row"><div><strong>DSA</strong><br><span class="tag">Intermediate</span><span class="tag">Help</span></div><span class="price">FREE</span></div>
+    <div class="skill-row"><div><strong>Web Development</strong><br><span class="tag">React</span><span class="tag">JavaScript</span></div><span class="price">₹30</span></div>
+    <div style="padding-top:17px;text-align:center"><span class="muted">🔄 Skill Swap available</span></div>
+   </div>
+  </div>
+  <div class="stats">
+   <div class="stat"><strong>2.4K+</strong><small>Students</small></div>
+   <div class="stat"><strong>180+</strong><small>Skills shared</small></div>
+   <div class="stat"><strong>3.8K+</strong><small>Problems solved</small></div>
+   <div class="stat"><strong>₹20</strong><small>Average teaching</small></div>
+  </div>
+ </div>
+</section>
+
+<section>
+ <div class="container">
+  <div class="section-head"><h2>How SkillSwap works</h2><p>Simple, affordable and made around the way students actually learn.</p></div>
+  <div class="steps">
+   <div class="card"><div class="step-num">01</div><h3>Create your profile</h3><p>Add your college, course, skills, interests and experience. Let people know what you can teach and what you want to learn.</p></div>
+   <div class="card"><div class="step-num">02</div><h3>Find or share skills</h3><p>Search students by skill, college or experience level, or add your own skills to help someone else.</p></div>
+   <div class="card"><div class="step-num">03</div><h3>Learn & help</h3><p>Get quick help for free, learn a skill for a tiny price, or swap skills directly with another student.</p></div>
+  </div>
+ </div>
+</section>
+
+<section id="explore">
+ <div class="container">
+  <div class="section-head"><h2>Explore skills</h2><p>Find students who know what you want to learn.</p></div>
+  <div class="searchbar"><input id="skillSearch" placeholder="🔎 Search Python, DSA, React, design..." oninput="filterPeople()"><button class="btn btn-primary" onclick="filterPeople()">Search</button></div>
+  <div class="profiles" id="peopleList"></div>
+ </div>
+</section>
+
+<section id="problems">
+ <div class="container">
+  <div class="section-head"><h2>Free problem solving</h2><p>Stuck? Ask the community. Normal problem-solving help is always free.</p></div>
+  <div class="problem-layout">
+   <div id="problemList"></div>
+   <div class="card">
+    <h3>Ask the community</h3><p style="margin:8px 0 16px">Post a coding error, college doubt, project problem or technical question.</p>
+    <button class="btn btn-primary" style="width:100%" onclick="openModal('problem')">+ Ask a Free Question</button>
+    <ul class="side-list" style="margin-top:17px">
+      <li>🐍 Python & C/C++</li><li>🌐 HTML, CSS & JavaScript</li><li>🗄️ Databases & SQL</li><li>🧠 DSA & college subjects</li>
+    </ul>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section id="swap">
+ <div class="container">
+  <div class="section-head"><h2>🔄 Skill Swap</h2><p>You teach what you know. Someone teaches what they know. You both learn.</p></div>
+  <div class="feature-grid">
+   <div class="card swap"><div class="feature-icon">🧩</div><h3>Find your perfect swap</h3><p>Tell us what you can teach and what you want to learn. SkillSwap can show students with matching needs.</p><br><button class="btn btn-primary" onclick="openModal('swap')">Find a Skill Swap</button></div>
+   <div class="card free"><div class="feature-icon">🆓</div><h3>Problem help stays FREE</h3><p>You never need to pay just to ask a normal question. Help each other, earn helpful points and build your reputation.</p><br><button class="btn btn-outline" onclick="document.querySelector('#problems').scrollIntoView()">Browse Problems</button></div>
+  </div>
+ </div>
+</section>
+
+<section id="community">
+ <div class="container">
+  <div class="section-head"><h2>College community</h2><p>Connect with students around your campus and beyond.</p></div>
+  <div class="feature-grid">
+   <div class="card"><div class="feature-icon">🎓</div><h3>GL Bajaj Community</h3><p>Students • Popular skills • Recent questions • Skill swaps</p><div style="margin-top:20px"><span class="tag">CSE</span><span class="tag">IT</span><span class="tag">AI/ML</span><span class="tag">ECE</span></div></div>
+   <div class="card"><div class="feature-icon">🏆</div><h3>Top contributors</h3><p>Recognize students who consistently help others.</p><div style="margin-top:15px"><strong>🥇 Aditi</strong> — 520 points<br><strong>🥈 Rahul</strong> — 410 points<br><strong>🥉 Aman</strong> — 365 points</div></div>
+  </div>
+ </div>
+</section>
+
+<section>
+ <div class="container">
+  <div class="cta">
+   <h2>Know something? Teach it.</h2>
+   <p>Share your skills, help another student and earn a small amount. Teaching on SkillSwap is designed to stay affordable.</p>
+   <button class="btn btn-primary" onclick="openModal('signup')">Create your profile →</button>
+  </div>
+ </div>
+</section>
+
+<section id="dashboard" class="dashboard">
+ <div class="container">
+  <div class="section-head" style="text-align:left"><h2 id="welcome">Welcome back 👋</h2><p>Your SkillSwap activity.</p></div>
+  <div class="dash-grid">
+   <div class="dash-stat"><span class="muted">My Skills</span><strong>5</strong></div>
+   <div class="dash-stat"><span class="muted">Problems Asked</span><strong>8</strong></div>
+   <div class="dash-stat"><span class="muted">Problems Solved</span><strong>12</strong></div>
+   <div class="dash-stat"><span class="muted">Teaching Earnings</span><strong>₹120</strong></div>
+  </div>
+  <div class="account-panel">
+   <div class="card"><h3>My Profile</h3><div id="profileDetails" style="margin-top:15px"></div></div>
+   <div class="card"><h3>My Skills <button class="btn btn-light" style="float:right;padding:7px 10px" onclick="openModal('skill')">+ Add</button></h3><div id="mySkills" style="margin-top:15px"></div></div>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer class="footer">
+ <div class="container footer-inner"><div><strong style="color:var(--text)">SkillSwap</strong> — Learn. Teach. Help. Grow.</div><div>© 2026 SkillSwap • Community Guidelines • Safety</div></div>
+</footer>
+
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+ <div class="modal">
+  <button class="close" onclick="closeModal()">×</button>
+  <div id="modalContent"></div>
+ </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const people=[
+ {name:"Rahul Kumar",initials:"RK",college:"GL Bajaj",branch:"CSE",year:"2nd Year",skills:["Python","DSA"],price:20,rating:"4.9",desc:"Can help with Python basics, DSA and beginner projects."},
+ {name:"Aman Verma",initials:"AV",college:"GL Bajaj",branch:"IT",year:"3rd Year",skills:["React","JavaScript","Web Development"],price:30,rating:"4.8",desc:"Frontend developer who enjoys helping students build projects."},
+ {name:"Priya Sharma",initials:"PS",college:"AKGEC",branch:"CSE",year:"2nd Year",skills:["UI/UX","Figma","Design"],price:20,rating:"4.9",desc:"Design enthusiast. Happy to help with Figma and UI basics."},
+ {name:"Arjun Singh",initials:"AS",college:"GL Bajaj",branch:"CSE-IT",year:"1st Year",skills:["C","HTML","CSS"],price:10,rating:"4.7",desc:"College coding buddy for C programming and web basics."},
+ {name:"Neha Gupta",initials:"NG",college:"JSS",branch:"CSE",year:"3rd Year",skills:["SQL","MySQL","Database"],price:20,rating:"4.9",desc:"Database helper for SQL queries and DBMS fundamentals."},
+ {name:"Vivek Patel",initials:"VP",college:"GL Bajaj",branch:"AI/ML",year:"3rd Year",skills:["Python","Machine Learning"],price:50,rating:"4.8",desc:"Can explain Python and ML concepts in simple language."}
+];
+let problems=[
+ {title:"Why is my Python loop not working?",user:"Keshav",tag:"Python • Beginner",replies:6,views:83,solved:false},
+ {title:"SQL query returning duplicate rows",user:"Rohan",tag:"MySQL • Intermediate",replies:4,views:51,solved:true},
+ {title:"CSS card is not becoming responsive",user:"Simran",tag:"HTML/CSS • Beginner",replies:9,views:122,solved:false},
+ {title:"How do I understand linked lists in C?",user:"Aman",tag:"C • DSA",replies:3,views:44,solved:false}
+];
+let currentUser=null;
+let mySkills=["Python — Intermediate","C — Intermediate","HTML/CSS — Intermediate","JavaScript — Beginner","DSA — Beginner"];
+
+function renderPeople(list=people){
+ const box=document.getElementById("peopleList");
+ box.innerHTML=list.length?list.map(p=>`
+  <div class="card person">
+   <div class="person-top"><div class="avatar">${p.initials}</div><div><strong>${p.name}</strong><div class="muted">${p.branch} • ${p.year}</div></div></div>
+   <div class="muted">🎓 ${p.college}</div>
+   <div>${p.skills.map(s=>`<span class="tag">${s}</span>`).join("")}</div>
+   <div class="description">${p.desc}</div>
+   <div class="person-bottom"><span class="rating">⭐ ${p.rating}</span><span class="price">₹${p.price} / help</span></div>
+   <button class="btn btn-outline" style="width:100%;margin-top:15px" onclick="requestHelp('${p.name}')">View Profile</button>
+  </div>`).join(""):`<div class="card" style="grid-column:1/-1;text-align:center">No students found. Try another skill.</div>`;
+}
+function filterPeople(){
+ const q=document.getElementById("skillSearch").value.toLowerCase().trim();
+ renderPeople(people.filter(p=>(p.name+" "+p.college+" "+p.branch+" "+p.skills.join(" ")).toLowerCase().includes(q)));
+}
+function renderProblems(){
+ document.getElementById("problemList").innerHTML=problems.map((p,i)=>`
+ <div class="card problem">
+  <div class="problem-top"><div><h3>${p.title}</h3><div class="muted">Posted by ${p.user}</div></div><span class="status ${p.solved?'solved':''}">${p.solved?'✓ Solved':'Needs help'}</span></div>
+  <div class="problem-meta"><span class="tag">${p.tag}</span><span class="muted">💬 ${p.replies} replies</span><span class="muted">👁 ${p.views} views</span></div>
+  <button class="btn btn-light" style="margin-top:12px;padding:8px 11px" onclick="helpProblem(${i})">Help</button>
+ </div>`).join("");
+}
+function openModal(type){
+ const c=document.getElementById("modalContent");
+ if(type==="login") c.innerHTML=`<h2>Welcome back</h2><div class="modal-sub">Log in to your SkillSwap account.</div>
+  <div class="field"><label>Email or Username</label><input id="loginUser" placeholder="you@example.com"></div>
+  <div class="field"><label>Password</label><input type="password" placeholder="••••••••"></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0 18px;font-size:12px"><label><input type="checkbox"> Remember me</label><a href="#" style="color:var(--primary)">Forgot password?</a></div>
+  <button class="btn btn-primary" style="width:100%" onclick="login()">Login</button>
+  <div style="text-align:center;margin:17px 0;color:#999">or</div>
+  <button class="btn btn-outline" style="width:100%" onclick="toast('Google login is a demo placeholder.')">🌐 Continue with Google</button>
+  <p style="text-align:center;font-size:12px;margin-top:17px">New here? <a href="#" onclick="openModal('signup');return false" style="color:var(--primary);font-weight:800">Create an account</a></p>`;
+ if(type==="signup") c.innerHTML=`<h2>Join SkillSwap</h2><div class="modal-sub">Create your student profile in less than a minute.</div>
+  <div class="form-grid">
+   <div class="field"><label>Full Name *</label><input id="suName" placeholder="Your name"></div>
+   <div class="field"><label>Username *</label><input id="suUsername" placeholder="@username"></div>
+   <div class="field"><label>Email *</label><input id="suEmail" type="email" placeholder="you@example.com"></div>
+   <div class="field"><label>Password *</label><input id="suPass" type="password" placeholder="Create password"></div>
+   <div class="field full"><label>College / University *</label><input id="suCollege" placeholder="e.g. GL Bajaj Institute of Technology"></div>
+   <div class="field"><label>Course / Branch</label><input id="suBranch" placeholder="e.g. CSE-IT"></div>
+   <div class="field"><label>Year of Study</label><select id="suYear"><option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option></select></div>
+   <div class="field"><label>City</label><input id="suCity" placeholder="Your city"></div>
+   <div class="field"><label>Profile picture</label><input type="file" accept="image/*"></div>
+   <div class="field full"><label>Short Bio</label><textarea id="suBio" placeholder="Tell students what you like learning or teaching..."></textarea></div>
+   <div class="field full"><label>I want to</label><div class="choice">
+    <label><input type="radio" name="mode"><span>Learn skills</span></label><label><input type="radio" name="mode"><span>Teach skills</span></label><label><input type="radio" name="mode" checked><span>Both</span></label>
+   </div></div>
+  </div>
+  <button class="btn btn-primary" style="width:100%;margin-top:5px" onclick="signup()">Create My Profile →</button>`;
+ if(type==="problem") c.innerHTML=`<h2>Ask for free help</h2><div class="modal-sub">Normal problem-solving help is always FREE.</div>
+  <div class="field"><label>Problem title *</label><input id="problemTitle" placeholder="e.g. Why is my Python loop not working?"></div>
+  <div class="field"><label>Describe your problem *</label><textarea id="problemDesc" placeholder="Explain what you tried and where you're stuck..."></textarea></div>
+  <div class="form-grid">
+   <div class="field"><label>Category</label><select id="problemTag"><option>Python</option><option>C / C++</option><option>Java</option><option>HTML/CSS</option><option>JavaScript</option><option>DSA</option><option>Database</option><option>Other</option></select></div>
+   <div class="field"><label>Level</label><select><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div>
+  </div>
+  <button class="btn btn-primary" style="width:100%" onclick="postProblem()">Post Free Question</button>`;
+ if(type==="swap") c.innerHTML=`<h2>Find a Skill Swap</h2><div class="modal-sub">Skill swaps are completely free.</div>
+  <div class="field"><label>I can teach *</label><input id="teachSkill" placeholder="e.g. Python"></div>
+  <div class="field"><label>I want to learn *</label><input id="learnSkill" placeholder="e.g. Photoshop"></div>
+  <div class="field"><label>My college</label><input placeholder="Optional"></div>
+  <button class="btn btn-primary" style="width:100%" onclick="findSwap()">Find Matching Students 🔄</button>`;
+ if(type==="skill") c.innerHTML=`<h2>Add a skill</h2><div class="modal-sub">Show students what you know.</div>
+  <div class="field"><label>Skill name</label><input id="newSkill" placeholder="e.g. React"></div>
+  <div class="field"><label>Experience level</label><select id="newLevel"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div>
+  <div class="field"><label>I can</label><select><option>Teach</option><option>Help</option><option>Both</option></select></div>
+  <div class="field"><label>Teaching price (₹)</label><select><option>10</option><option>20</option><option>30</option><option>50</option><option>100</option></select></div>
+  <button class="btn btn-primary" style="width:100%" onclick="addSkill()">Add Skill</button>`;
+ document.getElementById("modalBg").classList.add("show");
+}
+function closeModal(){document.getElementById("modalBg").classList.remove("show")}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2500)}
+function requestHelp(name){toast("Profile opened for "+name+" — demo mode");}
+function helpProblem(i){problems[i].replies++;renderProblems();toast("Thanks! You joined the discussion.");}
+function postProblem(){
+ const title=document.getElementById("problemTitle").value.trim(),tag=document.getElementById("problemTag").value;
+ if(!title){toast("Please add a problem title.");return}
+ problems.unshift({title,user:currentUser?.name||"You",tag:tag+" • Beginner",replies:0,views:1,solved:false});
+ renderProblems();closeModal();document.querySelector("#problems").scrollIntoView();toast("Your free question was posted!");
+}
+function signup(){
+ const name=document.getElementById("suName").value.trim(), college=document.getElementById("suCollege").value.trim();
+ if(!name||!college){toast("Please enter your name and college.");return}
+ currentUser={name,college,branch:document.getElementById("suBranch").value||"Student",year:document.getElementById("suYear").value,city:document.getElementById("suCity").value||"India",username:document.getElementById("suUsername").value||"student"};
+ localStorage.setItem("skillswapUser",JSON.stringify(currentUser));showDashboard();closeModal();toast("Welcome to SkillSwap, "+name+"!");
+}
+function login(){
+ const u=document.getElementById("loginUser").value.trim();
+ if(!u){toast("Enter your email or username.");return}
+ currentUser=JSON.parse(localStorage.getItem("skillswapUser")||'null')||{name:u.split("@")[0],college:"Your College",branch:"Student",year:"1st Year",city:"India",username:u};
+ showDashboard();closeModal();toast("Logged in successfully!");
+}
+function showDashboard(){
+ document.getElementById("dashboard").classList.add("active");
+ document.getElementById("welcome").textContent=`Welcome back, ${currentUser.name} 👋`;
+ document.getElementById("profileDetails").innerHTML=`<div class="person-top"><div class="avatar">${currentUser.name.split(" ").map(x=>x[0]).slice(0,2).join("")}</div><div><strong>${currentUser.name}</strong><div class="muted">@${currentUser.username}</div></div></div><p class="muted">🎓 ${currentUser.college}</p><p class="muted">💻 ${currentUser.branch} • ${currentUser.year}</p><p class="muted">📍 ${currentUser.city}</p><button class="btn btn-outline" style="margin-top:15px" onclick="openModal('skill')">Edit / Add Skills</button>`;
+ document.getElementById("mySkills").innerHTML=mySkills.map((s,i)=>`<div class="skill-chip"><span>✓ ${s}</span><button class="remove" onclick="mySkills.splice(${i},1);showDashboard()">×</button></div>`).join("");
+ document.getElementById("dashboard").scrollIntoView();
+}
+function addSkill(){
+ const n=document.getElementById("newSkill").value.trim(),l=document.getElementById("newLevel").value;
+ if(!n){toast("Enter a skill.");return}
+ mySkills.push(n+" — "+l);closeModal();showDashboard();toast(n+" added to your skills!");
+}
+function findSwap(){
+ const a=document.getElementById("teachSkill").value.trim(),b=document.getElementById("learnSkill").value.trim();
+ if(!a||!b){toast("Enter both skills.");return}
+ closeModal();toast("3 possible skill swaps found for you! 🔄");
+ document.querySelector("#explore").scrollIntoView();document.getElementById("skillSearch").value=b;filterPeople();
+}
+function toggleMenu(){document.querySelector(".navlinks").style.display=document.querySelector(".navlinks").style.display==="flex"?"none":"flex"}
+const saved=localStorage.getItem("skillswapUser");if(saved){currentUser=JSON.parse(saved)}
+renderPeople();renderProblems();
+</script>
+</body>
+</html>
